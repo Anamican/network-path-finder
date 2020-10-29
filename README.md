@@ -1,5 +1,7 @@
 # Network Path Finder
 
+ A simple PHP application to find the feasibility of network path in a given network 
+
 ## Initial Thoughts on Solving this problem
 
 * Use PHP args, readline for getting user input
