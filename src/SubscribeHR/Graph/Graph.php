@@ -16,8 +16,8 @@ class Graph
         $this->vertices = $vertices;
     }
 
-    public function getWeights(){
-        return $this->weights;
+    public function getWeight($vertex){
+        return isset($this->weights[$vertex])?$this->weights[$vertex]:0;
     }
 
     public function getPath(){
