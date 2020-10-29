@@ -21,7 +21,14 @@
 
 ## How to run the file ?
 
-Please run the file by 
+* Please clone the directory and run composer install
+```
+ composer install
+```
+
+* Once the composer installs, it will dump autoload files as well
+
+* Then please run the file by 
 
 ```
     php npf.php testfile.csv
@@ -29,11 +36,7 @@ Please run the file by
 
 ## How to run tests ?
 
-* Please install phpunit using composer 
-```
-    composer install
-```
-* The above should install phpunit in vendor, then run for unix systems
+* The above composer should install phpunit in vendor, then for unix systems run
 
 ```
     ./vendor/bin/phpunit 
