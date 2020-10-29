@@ -8,6 +8,11 @@
 * Use BFS to navigate the graph and find feasibility
 * Later found that finding minimum path is better to accommodate all test cases, so refactored it
 
+## Assumptions
+
+* Graph is bi-directional but need to be explicitly menionted in csv file. 
+* For example, the test case `Input: E A 400 Output: E => D => B => A => 120`, it is assumed that E => D will be provided in testfile.csv
+
 ## Pre-Requisites
 
 * PHP latest stable(7.4 recommended)
@@ -36,3 +41,7 @@ Please run the file by
 ```
     .\vendor\bin\phpunit
 ```
+
+## License
+
+Copyrights and All rights reserved to the company this test is taken for.
