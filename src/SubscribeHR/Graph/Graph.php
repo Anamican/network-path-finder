@@ -31,30 +31,27 @@ class Graph
             return false;
         }
 
-        // If both the source and target are the same, no need to find path
-        if($source === $destination){
-            return false;
-        }
-
         foreach ($this->vertices as $vertex => $ignorable) {
             $this->weights[$vertex] = INF;
         }
 
-        $queue = new \SplQueue();
         $this->weights[$source] = 0;
-        $queue->enqueue($source);
+        $edges = array();
 
-        while (!$queue->isEmpty()) {
-            $current = $queue->dequeue();
-            if(isset($this->verticesMap[$current])){
-                foreach ($this->verticesMap[$current] as $vertex => $weight) {
-                    if ($this->weights[$vertex] === INF) {
-                        $this->weights[$vertex] = $this->weights[$current] + $weight;
-                        $this->path[$current][] = $vertex;
-                        $queue->enqueue($vertex);
+        while (!empty($this->weights)) {
+            $min = array_search(min($this->weights), $this->weights);
+            if($min == $destination) break;
+
+            if(isset($this->verticesMap[$min])){
+                foreach ($this->verticesMap[$min] as $vertex => $weight) {
+                    if(!empty($this->weights[$vertex]) &&
+                        (($this->weights[$min] + $weight) < $this->weights[$vertex])) {
+                        $this->weights[$vertex] = $this->weights[$min] + $weight;
+                        $edges[$vertex] = array($min, $this->weights[$vertex]);
                     }
                 }
             }
+            unset($this->weights[$min]);
         }
 
         // Path not found
@@ -62,7 +59,15 @@ class Graph
             return false;
         }
 
-        // Path reachable
-        return true;
+        $vertex = $destination;
+        while($vertex != $source){
+            $this->path[] = $vertex;
+            $vertex = $edges[$vertex][0];
+        }
+        $this->path[] = $source;
+        $this->path = array_reverse($this->path);
+
+       // Path reachable
+       return true;
     }
 }
