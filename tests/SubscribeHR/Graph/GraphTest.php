@@ -51,20 +51,6 @@ class GraphTest extends TestCase
         }
     }
 
-    public function testIfSourceOrDestinationAreSame()
-    {
-        $filename = self::TEST_FILES_DIR . 'test_graph_correct_values.csv';
-        $csvParser = new CSVParser();
-        $isValid = $csvParser->isValidCSVFile($filename);
-        $this->assertTrue($isValid);
-        if ($isValid) {
-            list($verticesMap, $vertices) = $csvParser->extractVerticesAndMap($filename);
-            $graph = new Graph($verticesMap, $vertices);
-            $isReachable = $graph->isReachable('A', 'A');
-            $this->assertFalse($isReachable);
-        }
-    }
-
     public function testPathNotFound(){
         $filename = self::TEST_FILES_DIR.'test_graph_correct_values.csv';
         $csvParser = new CSVParser();
@@ -107,12 +93,40 @@ class GraphTest extends TestCase
             $this->assertNotEquals(0, $weights['F']);
             $this->assertLessThanOrEqual($weightLimit, $weights['F']);
 
-            $requiredPathArr = array(
-                'A' => array('B','C'),
-                'B' => array('D'),
-                'D' => array('E'),
-                'E' => array('F')
-            );
+            $requiredPathArr = array('A','C','D','E','F');
+            $this->assertEquals($requiredPathArr, $graph->getPath());
+        }
+    }
+
+    public function testMultiplePathFoundWithWeightLimit(){
+        $filename = self::TEST_FILES_DIR.'test_graph_correct_values.csv';
+        $csvParser = new CSVParser();
+        $isValid = $csvParser->isValidCSVFile($filename);
+        $this->assertTrue($isValid);
+        if($isValid){
+            list($verticesMap, $vertices) = $csvParser->extractVerticesAndMap($filename);
+            $graph = new Graph($verticesMap, $vertices);
+
+            $weightLimit = 1200;
+            $this->assertTrue($graph->isReachable('A','F'));
+            $weights = $graph->getWeights();
+            $this->assertNotEmpty($weights);
+            $this->assertNotEquals(0, $weights['F']);
+            $this->assertLessThanOrEqual($weightLimit, $weights['F']);
+
+            $requiredPathArr = array('A','C','D','E','F');
+            $this->assertEquals($requiredPathArr, $graph->getPath());
+
+            $weightLimit = 100;
+            $graph = new Graph($verticesMap, $vertices);
+            $this->assertTrue($graph->isReachable('A','D'));
+            $weights = $graph->getWeights();
+
+            $this->assertNotEmpty($weights);
+            $this->assertNotEquals(0, $weights['D']);
+            $this->assertLessThanOrEqual($weightLimit, $weights['D']);
+
+            $requiredPathArr = array('A','C','D');
             $this->assertEquals($requiredPathArr, $graph->getPath());
         }
     }
