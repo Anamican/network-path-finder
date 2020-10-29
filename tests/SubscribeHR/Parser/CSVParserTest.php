@@ -45,4 +45,29 @@ class CSVParserTest extends TestCase
         $isValid = $csvParser->isValidCSVFile(self::TEST_FILES_DIR.'valid.csv');
         $this->assertTrue($isValid);
     }
+
+    public function testTransformCSVToGraphEmptyValue(){
+        $csvParser = new CSVParser();
+        list($verticesMap, $vertices) = $csvParser->extractVerticesAndMap(self::TEST_FILES_DIR.'empty_file.csv');
+        $this->assertEmpty($verticesMap);
+        $this->assertEmpty($vertices);
+    }
+
+    public function testTransformCSVToGraphValidGraph(){
+        $csvParser = new CSVParser();
+        $expectedResult = array(
+            array(
+               'A' => array('B' => 1000, 'D' => 30),
+               'C' => array('D' => 20, 'B' => 20)
+            ),
+            array(
+                'A' => 1,
+                'B' => 1,
+                'C' => 1,
+                'D' => 1
+            )
+        );
+        $result = $csvParser->extractVerticesAndMap(self::TEST_FILES_DIR.'test_graph.csv');
+        $this->assertEquals($expectedResult, $result);
+    }
 }

@@ -24,4 +24,39 @@ class CSVParser extends FileParser
         }
         return true;
     }
+
+    /**
+     * Extract the CSV to Vertices Map and list of vertices
+     *
+     * eg) For the file
+     * A,B,10
+     * B,C,20,
+     * A,C,30
+     *
+     * the result would be
+     * array(
+     *      array(
+     *          'A' => array('B' => 10, 'C' => 30),
+     *          'B' => array('C' => 20),
+     *      ),
+     *      array(
+     *          'A' => 1, 'B' => 1, 'C' => 1
+     *      )
+     * )
+     * @param $filename
+     * @return array
+     */
+    public function extractVerticesAndMap($filename){
+        $verticesMap = [];
+        $vertices = [];
+        $file = fopen($filename, 'r');
+        while (($line = fgetcsv($file)) !== FALSE) {
+            $verticesMap[$line[0]][$line[1]] = $line[2];
+            // Let PHP builtin do the data-deduplication rather than an IF validation
+            $vertices[$line[0]] = 1;
+            $vertices[$line[1]] = 1;
+        }
+        fclose($file);
+        return array($verticesMap, $vertices);
+    }
 }
