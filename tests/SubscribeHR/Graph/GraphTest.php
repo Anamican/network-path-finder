@@ -130,4 +130,46 @@ class GraphTest extends TestCase
             $this->assertEquals($requiredPathArr, $graph->getPath());
         }
     }
+
+    public function testPathFoundWithNegativeWeightLimit(){
+        $filename = self::TEST_FILES_DIR.'test_graph_negative_values.csv';
+        $csvParser = new CSVParser();
+        $isValid = $csvParser->isValidCSVFile($filename);
+        $this->assertTrue($isValid);
+        if($isValid){
+            list($verticesMap, $vertices) = $csvParser->extractVerticesAndMap($filename);
+            $graph = new Graph($verticesMap, $vertices);
+
+            $weightLimit = -1200;
+            $this->assertTrue($graph->isReachable('A','F'));
+            $weights = $graph->getWeights();
+            $this->assertNotEmpty($weights);
+            $this->assertNotEquals(0, $weights['F']);
+            $this->assertGreaterThanOrEqual($weightLimit, $weights['F']);
+
+            $requiredPathArr = array('A','C','D','E','F');
+            $this->assertEquals($requiredPathArr, $graph->getPath());
+        }
+    }
+
+    public function testPathFoundWithPositiveAndNegativeWeightLimit(){
+        $filename = self::TEST_FILES_DIR.'test_graph_positive_negative_values.csv';
+        $csvParser = new CSVParser();
+        $isValid = $csvParser->isValidCSVFile($filename);
+        $this->assertTrue($isValid);
+        if($isValid){
+            list($verticesMap, $vertices) = $csvParser->extractVerticesAndMap($filename);
+            $graph = new Graph($verticesMap, $vertices);
+
+            $weightLimit = -250;
+            $this->assertTrue($graph->isReachable('A','F'));
+            $weights = $graph->getWeights();
+            $this->assertNotEmpty($weights);
+            $this->assertNotEquals(0, $weights['F']);
+            $this->assertGreaterThanOrEqual($weightLimit, $weights['F']);
+
+            $requiredPathArr = array('A','C','D','E','F');
+            $this->assertEquals($requiredPathArr, $graph->getPath());
+        }
+    }
 }
