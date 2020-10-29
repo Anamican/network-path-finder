@@ -88,10 +88,10 @@ class GraphTest extends TestCase
 
             $weightLimit = 1200;
             $this->assertTrue($graph->isReachable('A','F'));
-            $weights = $graph->getWeights();
-            $this->assertNotEmpty($weights);
-            $this->assertNotEquals(0, $weights['F']);
-            $this->assertLessThanOrEqual($weightLimit, $weights['F']);
+            $weight = $graph->getWeight('F');
+            $this->assertNotEmpty($weight);
+            $this->assertNotEquals(0, $weight);
+            $this->assertLessThanOrEqual($weightLimit, $weight);
 
             $requiredPathArr = array('A','C','D','E','F');
             $this->assertEquals($requiredPathArr, $graph->getPath());
@@ -109,10 +109,10 @@ class GraphTest extends TestCase
 
             $weightLimit = 1200;
             $this->assertTrue($graph->isReachable('A','F'));
-            $weights = $graph->getWeights();
-            $this->assertNotEmpty($weights);
-            $this->assertNotEquals(0, $weights['F']);
-            $this->assertLessThanOrEqual($weightLimit, $weights['F']);
+            $weight = $graph->getWeight('F');
+            $this->assertNotEmpty($weight);
+            $this->assertNotEquals(0, $weight);
+            $this->assertLessThanOrEqual($weightLimit, $weight);
 
             $requiredPathArr = array('A','C','D','E','F');
             $this->assertEquals($requiredPathArr, $graph->getPath());
@@ -120,11 +120,10 @@ class GraphTest extends TestCase
             $weightLimit = 100;
             $graph = new Graph($verticesMap, $vertices);
             $this->assertTrue($graph->isReachable('A','D'));
-            $weights = $graph->getWeights();
-
-            $this->assertNotEmpty($weights);
-            $this->assertNotEquals(0, $weights['D']);
-            $this->assertLessThanOrEqual($weightLimit, $weights['D']);
+            $weight = $graph->getWeight('D');
+            $this->assertNotEmpty($weight);
+            $this->assertNotEquals(0, $weight);
+            $this->assertLessThanOrEqual($weightLimit, $weight);
 
             $requiredPathArr = array('A','C','D');
             $this->assertEquals($requiredPathArr, $graph->getPath());
@@ -142,10 +141,10 @@ class GraphTest extends TestCase
 
             $weightLimit = -1200;
             $this->assertTrue($graph->isReachable('A','F'));
-            $weights = $graph->getWeights();
-            $this->assertNotEmpty($weights);
-            $this->assertNotEquals(0, $weights['F']);
-            $this->assertGreaterThanOrEqual($weightLimit, $weights['F']);
+            $weight = $graph->getWeight('F');
+            $this->assertNotEmpty($weight);
+            $this->assertNotEquals(0, $weight);
+            $this->assertGreaterThanOrEqual($weightLimit, $weight);
 
             $requiredPathArr = array('A','C','D','E','F');
             $this->assertEquals($requiredPathArr, $graph->getPath());
@@ -163,10 +162,10 @@ class GraphTest extends TestCase
 
             $weightLimit = -250;
             $this->assertTrue($graph->isReachable('A','F'));
-            $weights = $graph->getWeights();
-            $this->assertNotEmpty($weights);
-            $this->assertNotEquals(0, $weights['F']);
-            $this->assertGreaterThanOrEqual($weightLimit, $weights['F']);
+            $weight = $graph->getWeight('F');
+            $this->assertNotEmpty($weight);
+            $this->assertNotEquals(0, $weight);
+            $this->assertGreaterThanOrEqual($weightLimit, $weight);
 
             $requiredPathArr = array('A','C','D','E','F');
             $this->assertEquals($requiredPathArr, $graph->getPath());
